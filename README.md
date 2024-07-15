@@ -19,4 +19,4 @@
     - `city`: encode to int for float
   - target: `price`
 
-### 3. Data exploration: see and work on `milestone2.ipynb`
+### 3. Data exploration: see and work on [milestone2.ipynb](https://github.com/chengyuanmao819/CSE151A-GroupProject/blob/milestone2/milestone2.ipynb)
