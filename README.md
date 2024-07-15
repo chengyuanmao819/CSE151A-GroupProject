@@ -22,5 +22,4 @@
 ### 3. Do they need to be cropped? normalized?
 ---Sang
 
-
 ### 4. Link to Jupyter Notebook: [milestone2.ipynb](https://github.com/chengyuanmao819/CSE151A-GroupProject/blob/milestone2/milestone2.ipynb)
