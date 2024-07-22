@@ -34,3 +34,43 @@ For unsupervised machine learning tasks, we'll use normalized data, so that the 
 
 
 ### 4. Link to Jupyter Notebook: [milestone2.ipynb](https://github.com/chengyuanmao819/CSE151A-GroupProject/blob/milestone2/milestone2.ipynb)
+
+# Milestone 3 Tasks:
+
+## Model 1: -name-
+
+### Brief Summarize the Model
+
+### Links to the works
+
+### Does the model fit in the fitting graph? Is it underfitting (high bias), overfitting (high variance), or well-balanced?
+
+### Summarize the performance and some findings
+
+### Improvement
+
+## Model 2: -name-
+
+### Brief Summarize the Model
+
+### Links to the works
+
+### Does the model fit in the fitting graph? Is it underfitting (high bias), overfitting (high variance), or well-balanced?
+
+### Summarize the performance and some findings
+
+### Improvement
+
+## Model 3: -name-
+
+### Brief Summarize the Model
+
+### Links to the works
+
+### Does the model fit in the fitting graph? Is it underfitting (high bias), overfitting (high variance), or well-balanced?
+
+### Summarize the performance and some findings
+
+### Improvement
+
+## Next Model?
