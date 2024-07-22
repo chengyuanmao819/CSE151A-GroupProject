@@ -37,6 +37,44 @@ For unsupervised machine learning tasks, we'll use normalized data, so that the 
 
 # Milestone 3 Tasks:
 
+## Principle Component Analysis [explore_preprocess.ipynb](https://github.com/chengyuanmao819/CSE151A-GroupProject/blob/Milestone3/explore_preprocess.ipynb)
+
+We performed Principal Component Analysis (PCA) on `all_data.csv`, which includes samples from 34 cities/regions in the USA, and `sandiego_listings.csv`, which contains samples from San Diego County. We then projected the data onto 2D plots (PC1 and PC2) and 3D plots (PC1, PC2, and PC3).
+
+![All Data PCA 2D](pictures/all_data_pca2d.png) ![San Diego PCA 2D](pictures/sandiego_pca2d.png)
+<!-- _Put these two plots on the same row for easy comparison_ -->
+
+![All Data PCA 3D](pictures/all_data_pca3d.png) ![San Diego PCA 3D](pictures/sandiego_pca3d.png)
+
+For each feature, we plotted an arrow (based on the coefficient of each PC), where each arrow's direction and magnitude reflect how well the feature aligns with PC1, PC2, or PC3. This allows us to understand how well the features are correlated with each other.
+
+The table represents the coefficients of the first principal component (PC1) in Principal Component Analysis (PCA). Each coefficient indicates the contribution of the corresponding feature to PC1. 
+
+| Rank | Value | Feature                          |
+|------|-------|----------------------------------|
+| 0    | -0.34 | minimum_nights                   |
+| 1    | -0.15 | availability_365                 |
+| 2    | -0.08 | price                            |
+| 3    | -0.08 | room_type                        |
+| 4    | -0.08 | latitude                         |
+| 5    | -0.07 | calculated_host_listings_count   |
+| 6    | 0.00  | longitude                        |
+| 7    | 0.48  | number_of_reviews                |
+| 8    | 0.55  | reviews_per_month                |
+| 9    | 0.55  | number_of_reviews_ltm            |
+
+Features with large positive or negative coefficients are more strongly correlated with PC1.
+If two features have coefficients with the same sign, they are positively correlated with each other in the context of PC1. For example, `number_of_reviews` (0.48), `reviews_per_month` (0.55), and `number_of_reviews_ltm` (0.55) all have large positive coefficients, indicating they are positively correlated with each other and with PC1.
+Conversely, features with coefficients of opposite signs are negatively correlated. For instance, `minimum_nights` (-0.34) and `number_of_reviews_ltm` (0.55) have opposite signs, indicating a negative correlation between price and `number_of_reviews_ltm`.
+
+From the plot and the table, we can observe that `price` aligns with PC2 and has a positive correlation with `calculated_host_listings_count`. On the other hand, `room_type` and `longitude` appear to be negatively correlated with `price`. The values of `room_type` were originally discrete (['Entire home/apt', 'Private room', 'Shared room', 'Hotel room'] = [0, 1, 2, 3]). After MinMax scaling, they became [0, 0.333, 0.666, 1]. It makes sense that the lower the `room_type` value, the higher the `price`. Additionally, it is logical that the lower the `longitude`, the closer the listing is to the coast, hence the higher the `price`.
+
+The group of `reviews...` features are closely related to each other and are mainly perpendicular to PC1, indicating that they are not well correlated with features such as `price`.
+
+By narrowing our sample size to San Diego, the features become more meaningful and seem to be more correlated.
+
+
+
 ## Model 1: Price Prediction Model
 
 ### Brief Summarize the Model
@@ -70,17 +108,44 @@ Both the training and validation losses are low and similar, the model is well-b
 - Consider augmenting the dataset if possible to include more diverse examples, which may help the model generalize better.
 - Adding batch normalization layers after the activation function
 
-## Model 2: -name-
+## Model 2: Income Group Classification Model
 
 ### Brief Summarize the Model
 
-### Links to the works
+Our goal is to create a model that, given features such as `latitude`, `longitude`, `room_type`, `price`, `minimum_nights`, `calculated_host_listings_count`, and `availability_365`, can predict which income group the listing might fall into.
+
+At the moment, we created a new feature `income` with the formula: 
+`data['income'] = data['price'] * data['minimum_nights'] * data['reviews_per_month']`.
+
+Then, we found the values of the 25th percentile, 50th percentile, 75th percentile, and 100th percentile of the `income`, and assigned each sample into one of the four groups based on its value.
+
+We could simply use a regression model for this prediction task. However, we want to practice using a classification model. Additionally, since our features are not very well correlated with each other, classification and finding the likelihood is a more feasible task.
+
+
+### Links to the works 
+[classification_model.ipynb](classification_model.ipynb)
 
 ### Does the model fit in the fitting graph? Is it underfitting (high bias), overfitting (high variance), or well-balanced?
+![train accuracy](pictures/classification accuracy.png)
+
+![train loss](pictures/classification loss.png)
+
+The model is slightly overfitting, as we set the `EarlyStopping's patience=10`, with less patience, the model's train accuracy would be closer to test's accuracy. 
 
 ### Summarize the performance and some findings
 
+The accuracy of the model is about 50%, which is not ideal in real life. Nevertheless, when examining the likelihood percentage of each class, we find that when the predicted income group with the highest likelihood is not the actual income group, it is almost certain that the predicted income group with the second highest likelihood will be the actual income group. This means our prediction is still within a quite good range of the confidence interval.
+
+For more details, please see the `Result` section in [classification_model.ipynb](classification_model.ipynb). We predict 10 random samples and plot the prediction and likelihood.
+
 ### Improvement
+
+**Improvement:**
+
+If we had features such as the number of beds, baths, nearby attractions, etc., which can actually refer to the value of the listing and are well correlated with the income, our model could perform better. Customers don't always leave reviews, so the `number_of_reviews` feature doesn't reflect the income very well.
+
+For now, we'll focus on finding more meaningful features that can be added to our dataset. We will need to clean up the data more thoroughly. For example, removing old listings (those with a `last_review` before 2020) can help reduce the noise in our data.
+
 
 ## Model 3: -name-
 
