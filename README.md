@@ -60,11 +60,15 @@ Both the training and validation losses are low and similar, the model is well-b
   ![true_vs_pridicted_value](price_pridiction_model_plots/true_vs_pridicted_values.png)
 - The residuals plot shows a pattern that suggests the model is not capturing the underlying data distribution effectively. The spread of residuals is uneven, indicating potential issues with model bias.
   ![residuals_vs_predicted_values](price_pridiction_model_plots/residuals_vs_predicted_values.png)
+- Here's the new best price prediction model we got so far:
+  ![bestmodel](price_pridiction_model_plots/bestmodelsummary.png)
+  The new model appears more complex with more parameters and layers, which might capture more intricate patterns in the data. The use of a dropout layer suggests an attempt to regularize the model and prevent overfitting. 
 
 ### Improvement
 - Improve feature selection and engineering to include more relevant features that may impact price prediction.
 - Continue fine-tuning hyperparameters using techniques like RandomizedSearchCV or Bayesian Optimization to find the optimal configuration for the model.
 - Consider augmenting the dataset if possible to include more diverse examples, which may help the model generalize better.
+- Adding batch normalization layers after the activation function
 
 ## Model 2: -name-
 
