@@ -41,10 +41,10 @@ For unsupervised machine learning tasks, we'll use normalized data, so that the 
 
 We performed Principal Component Analysis (PCA) on `all_data.csv`, which includes samples from 34 cities/regions in the USA, and `sandiego_listings.csv`, which contains samples from San Diego County. We then projected the data onto 2D plots (PC1 and PC2) and 3D plots (PC1, PC2, and PC3).
 
-![All Data PCA 2D](pictures/all_data_pca2d.png) ![San Diego PCA 2D](pictures/sandiego_pca2d.png)
+![All Data PCA 2D](pictures/alldata_pca2d.png) ![San Diego PCA 2D](pictures/sandiego_pca2d.png)
 <!-- _Put these two plots on the same row for easy comparison_ -->
 
-![All Data PCA 3D](pictures/all_data_pca3d.png) ![San Diego PCA 3D](pictures/sandiego_pca3d.png)
+![All Data PCA 3D](pictures/alldata_pca3d.png) ![San Diego PCA 3D](pictures/sandiego_pca3d.png)
 
 For each feature, we plotted an arrow (based on the coefficient of each PC), where each arrow's direction and magnitude reflect how well the feature aligns with PC1, PC2, or PC3. This allows us to understand how well the features are correlated with each other.
 
@@ -126,9 +126,9 @@ We could simply use a regression model for this prediction task. However, we wan
 [classification_model.ipynb](classification_model.ipynb)
 
 ### Does the model fit in the fitting graph? Is it underfitting (high bias), overfitting (high variance), or well-balanced?
-![train accuracy](pictures/classification accuracy.png)
+![train accuracy](pictures/classification_accuracy.png)
 
-![train loss](pictures/classification loss.png)
+![train loss](pictures/classification_loss.png)
 
 The model is slightly overfitting, as we set the `EarlyStopping's patience=10`, with less patience, the model's train accuracy would be closer to test's accuracy. 
 
