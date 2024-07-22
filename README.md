@@ -37,17 +37,38 @@ For unsupervised machine learning tasks, we'll use normalized data, so that the 
 
 # Milestone 3 Tasks:
 
-## Model 1: -name-
+## Model 1: Price Prediction Model
 
 ### Brief Summarize the Model
+This model is designed to predict the prices of houses in California based on various features such as location, number of reviews, number of bedrooms, and other relevant attributes. The model utilizes a neural network with k-fold validation and hyperparameter tuning to achieve optimal performance. The dataset used for training and testing includes comprehensive data on housing prices and their respective features.
 
 ### Links to the works
+[priceprediction_model.ipynb](priceprediction_model.ipynb)
 
 ### Does the model fit in the fitting graph? Is it underfitting (high bias), overfitting (high variance), or well-balanced?
+Both the training and validation losses are low and similar, the model is well-balanced.
+
+![Training and Validation Loss](price_pridiction_model_plots/training_and_validation_loss.png)
 
 ### Summarize the performance and some findings
+- Mean Squared Error (MSE): 0.0247
+
+#### Key Findings
+- The model performs well on the test set, indicating that it has learned the underlying patterns in the data.
+- Mean Squared Error (MSE): The MSE is relatively low, which indicates the model is making small errors in predicting the continuous values.
+- The scatter plot of true versus predicted values shows a concentration of predicted values around a lower range, indicating the model's tendency to underestimate prices. The red diagonal line represents the ideal prediction where the true values match the predicted values.
+  ![true_vs_pridicted_value](price_pridiction_model_plots/true_vs_pridicted_values.png)
+- The residuals plot shows a pattern that suggests the model is not capturing the underlying data distribution effectively. The spread of residuals is uneven, indicating potential issues with model bias.
+  ![residuals_vs_predicted_values](price_pridiction_model_plots/residuals_vs_predicted_values.png)
+- Here's the new best price prediction model we got so far:
+  ![bestmodel](price_pridiction_model_plots/bestmodelsummary.png)
+  The new model appears more complex with more parameters and layers, which might capture more intricate patterns in the data. The use of a dropout layer suggests an attempt to regularize the model and prevent overfitting. 
 
 ### Improvement
+- Improve feature selection and engineering to include more relevant features that may impact price prediction.
+- Continue fine-tuning hyperparameters using techniques like RandomizedSearchCV or Bayesian Optimization to find the optimal configuration for the model.
+- Consider augmenting the dataset if possible to include more diverse examples, which may help the model generalize better.
+- Adding batch normalization layers after the activation function
 
 ## Model 2: -name-
 
