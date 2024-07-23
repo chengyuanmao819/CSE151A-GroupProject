@@ -147,17 +147,4 @@ If we had features such as the number of beds, baths, nearby attractions, etc., 
 
 For now, we'll focus on finding more meaningful features that can be added to our dataset. We will need to clean up the data more thoroughly. For example, removing old listings (those with a `last_review` before 2020) can help reduce the noise in our data.
 
-
-## Model 3: -name-
-
-### Brief Summarize the Model
-
-### Links to the works
-
-### Does the model fit in the fitting graph? Is it underfitting (high bias), overfitting (high variance), or well-balanced?
-
-### Summarize the performance and some findings
-
-### Improvement
-
 ## Next Model?
