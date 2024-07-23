@@ -107,6 +107,7 @@ Both the training and validation losses are low and similar, the model is well-b
 - Continue fine-tuning hyperparameters using techniques like RandomizedSearchCV or Bayesian Optimization to find the optimal configuration for the model.
 - Consider augmenting the dataset if possible to include more diverse examples, which may help the model generalize better.
 - Adding batch normalization layers after the activation function
+- Experiment with batch sizes in the range of 100-1000. The reason behind this adjustment is that using whole batch gradient descent might lead to misleadingly low MSE. When batch sizes are too large, the model may learn to predict lower values consistently, thus minimizing MSE but not improving the accuracy of predictions. Smaller batch sizes introduce more variability in the gradient updates, and it can lead to a better model.
 
 ## Model 2: Income Group Classification Model
 
