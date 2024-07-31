@@ -159,12 +159,12 @@ For now, we'll focus on finding more meaningful features that can be added to ou
 
 # Milestone 4
 
-## Model Hyperparameter Tuning
+## Model_1_Hyperparameter_Tuning
 
-## Model Classification
+## Model_2_Classification
 
-## Model SVM
+## Model_3_SVM
 
-## Model Word Embeding
+## Model_4_Word_Embeding
 
 # Statement of Collaboration
