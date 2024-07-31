@@ -14,6 +14,25 @@ Our target is a vector with values from the columns ['price', 'longitude', 'lati
 
 ## 3. Methods
 
+Our model is a straightforward neural network with two fully connected layers:
+```
+class SimpleNN(nn.Module):
+    def __init__(self):
+        super(SimpleNN, self).__init__()
+        self.fc1 = nn.Linear(VOCAB_SIZE, EMBEDDING_DIM)
+        self.fc2 = nn.Linear(EMBEDDING_DIM, 10)
+        self.relu = nn.ReLU()
+
+    def forward(self, x):
+        x = self.fc1(x)
+        x = self.relu(x)
+        x = self.fc2(x)
+        return x
+
+```
+
+The ReLU activation function is applied after each layer, introducing non-linearity into the model. This non-linearity allows the model to learn more complex relationships within the data compared to a purely linear model.
+For training, we use the Adam optimizer and the Mean Squared Error (MSE) loss function. The MSE loss is appropriate for our task as we are predicting continuous numerical values
 
 ## 4. Results
 
