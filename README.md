@@ -1,5 +1,13 @@
 # CSE151A-GroupProject
 
+# Introduction to our project
+
+
+
+# Milestone 1 Tasks: Abstract
+
+Our project leverages a dataset of Airbnb listings to build a predictive model for nightly prices. By employing supervised machine learning techniques, we aim to predict listing prices based on features such as property details, host information, and location. Additionally, we plan to create a recommendation model that, given an asset’s details and the listing price, suggests the income (calculated by considering metrics like reviews per month and price). The dataset includes various attributes like property features, amenities, rating, reviews per month. Our findings will assist in optimizing pricing strategies for both hosts and customers.
+
 # Milestone 2 Tasks:
 
 ### 1. Download data:
@@ -148,3 +156,13 @@ If we had features such as the number of beds, baths, nearby attractions, etc., 
 For now, we'll focus on finding more meaningful features that can be added to our dataset. We will need to clean up the data more thoroughly. For example, removing old listings (those with a `last_review` before 2020) can help reduce the noise in our data.
 
 ## Next Model?
+
+# Milestone 4
+
+## Model 1
+
+## Model 2
+
+## Model 3
+
+## Model 4
