@@ -12,7 +12,10 @@ Preprocessing: We collected all the words from the following columns: ['name', '
 
 Our target is a vector with values from the columns ['price', 'longitude', 'latitude', 'accommodates', 'bathrooms', 'bedrooms', 'beds', 'minimum_nights', 'review_scores_rating', 'number_of_reviews']. This setup creates a context for training the word embeddings, as it associates words with numerical attributes from the listings. The idea is to learn meaningful embeddings that capture the relationships between words and these numerical features. For example, certain words in the description might be more frequently associated with higher prices or specific types of accommodation, allowing the model to understand these patterns.
 
-## 3. Results
+## 3. Methods
+
+
+## 4. Results
 
 - **Train and Validation loss**: 
 
@@ -73,7 +76,7 @@ Index: 12999, Word: chances
 Although the model fails to map words to numerical values perfectly, the scatter plot of actual price versus predicted price shows a clear positive correlation, with most points close to the perfect fit line. The model tends to underpredict the price when the actual price is high.
 ![Predicted vs Actual Price](word_embed\predict_vs_actual.png)
 
-## 4. Discusion and Improvement
+## 5. Discusion and Improvement
 
 Our vocabulary is not ideal as it still contains unexpected words such as emojis and variations of words (e.g., "student" vs. "students"), which significantly increase the size of the vocabulary and dilute the relationships between words.
 
