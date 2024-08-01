@@ -170,7 +170,95 @@ For now, we'll focus on finding more meaningful features that can be added to ou
 ### Brief Summarize the Model
 This model is designed to predict the prices of houses in California based on various features such as location, number of reviews, number of bedrooms, and other relevant attributes. The model utilizes a neural network with k-fold validation and hyperparameter tuning to achieve optimal performance. The dataset used for training and testing includes comprehensive data on housing prices and their respective features.
 
-### Links to the works
+The model chosen is a neural network implemented using Keras with a sequential architecture. The model consists of multiple dense layers with ReLU activation functions, dropout layers for regularization, and a final output layer with a linear activation function for regression.
+
+### Parameters:
+- Input layer: 13 neurons (matching the number of input features)
+- Hidden layers: 4 layers with 288, 128, 352, and 480 neurons respectively
+- Dropout rate: 0.25
+- Output layer: 1 neuron (for price prediction)
+- Optimizer: Adam with a learning rate of 0.0019272521621405724
+- Loss function: Mean Absolute Error (MAE)
+- Metrics: Mean Squared Error (MSE)
+
+### Reasons for choosing this model:
+- Neural networks can capture complex non-linear relationships in the data.
+- The multiple hidden layers allow for learning hierarchical features.
+- Dropout layers help prevent overfitting.
+- The model architecture was determined through hyperparameter tuning using Keras Tuner with Random Search.
+
+### Methods
+#### Data Exploration
+
+- Reviewed the distribution of the target variable and main features.
+- Ensured that the chosen model aligns with the nature of the data (e.g., linear vs. non-linear, categorical vs. numerical).
+
+#### Preprocessing Steps
+
+- Split the data into training and testing sets.
+- Applied MinMaxScaler to normalize the feature values.
+- Encoded categorical variables using OneHotEncoder.
+
+### Methods
+```python
+def buildHPmodel(hp):
+    model = keras.Sequential()
+    model.add(layers.Flatten())
+    model.add(layers.Dense(
+            units=X_train.shape[1],
+            activation=hp.Choice(f"activation_{0}", ["relu", "tanh", "sigmoid"]),
+        ))
+    for i in range(hp.Int("num_layers", 1, 10)):
+        model.add(
+            layers.Dense(
+                units=hp.Int(f"units_{i}", min_value=32, max_value=512, step=32),
+                activation=hp.Choice(f"activation_{i}", ["relu", "tanh", "sigmoid"]),
+            )
+        )
+    if hp.Boolean("dropout"):
+        model.add(layers.Dropout(rate=0.25))
+    model.add(layers.Dense(y_train.shape[1], activation="sigmoid"))
+    learning_rate = hp.Float("lr", min_value=1e-4, max_value=1e-2, sampling="log")
+    model.compile(
+        optimizer=keras.optimizers.Adam(learning_rate=learning_rate),
+        loss="mae",
+        metrics=["mse"],
+    )
+    return model
+
+    print(y_train.shape[1])
+
+tuner = keras_tuner.RandomSearch(
+    hypermodel=buildHPmodel,
+    objective="val_loss",
+    max_trials=10,
+    executions_per_trial=1,
+    overwrite=True,
+    tune_new_entries=True,
+    allow_new_entries=True,
+)
+
+X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, random_state = 0
+
+from sklearn.model_selection import KFold
+kfold = KFold(n_splits=5, shuffle=True, random_state=42)
+
+all_scores = []
+for train_index, val_index in kfold.split(X_train):
+    X_train_fold, X_val_fold = X_train.iloc[train_index], X_train.iloc[val_index]
+    y_train_fold, y_val_fold = y_train.iloc[train_index], y_train.iloc[val_index]
+
+    tuner.search(X_train_fold, y_train_fold, validation_data=(X_val_fold, y_val_fold), epochs=5)
+
+    best_model = tuner.get_best_models(num_models=1)[0]
+
+    val_loss, val_mse = best_model.evaluate(X_val_fold, y_val_fold)
+    all_scores.append(val_mse)
+
+average_mse = np.mean(all_scores)
+print(f"Average MSE from cross-validation: {average_mse}")
+```
+
 [priceprediction model final version](final_version_1.ipynb)
 
 ### Does the model fit in the fitting graph? Is it underfitting (high bias), overfitting (high variance), or well-balanced?
@@ -189,7 +277,18 @@ Both the training and validation losses are low and similar, the model is well-b
 - The residuals plot shows a pattern that suggests the model is not capturing the underlying data distribution effectively. The spread of residuals is uneven, indicating potential issues with model bias.
   ![residuals_vs_predicted_values](price_pridiction_model_plots/residuals_vs_predicted_values_final.png)
 - Here's the new best price prediction model we got so far:
-  ![bestmodel](price_pridiction_model_plots/best_model_final.png)
+
+| Layer (type)  | Output Shape | Param # |
+|---------------|--------------|---------|
+| flatten_1 (Flatten) | (None, 13)  | 0       |
+| dense_6 (Dense)     | (None, 13)  | 182     |
+| dense_7 (Dense)     | (None, 288) | 4,032   |
+| dense_8 (Dense)     | (None, 128) | 36,992  |
+| dense_9 (Dense)     | (None, 352) | 45,408  |
+| dense_10 (Dense)    | (None, 480) | 169,440 |
+| dropout_1 (Dropout) | (None, 480) | 0       |
+| dense_11 (Dense)    | (None, 1)   | 481     |
+
   The new model appears more complex with more parameters and layers, which might capture more intricate patterns in the data. The use of a dropout layer suggests an attempt to regularize the model and prevent overfitting. 
 
 ### Improvement
@@ -198,6 +297,21 @@ Both the training and validation losses are low and similar, the model is well-b
 - Consider augmenting the dataset if possible to include more diverse examples, which may help the model generalize better.
 - Adding batch normalization layers after the activation function
 - Experiment with batch sizes in the range of 100-1000. The reason behind this adjustment is that using whole batch gradient descent might lead to misleadingly low MSE. When batch sizes are too large, the model may learn to predict lower values consistently, thus minimizing MSE but not improving the accuracy of predictions. Smaller batch sizes introduce more variability in the gradient updates, and it can lead to a better model.
+
+### Discussion
+1. Data Exploration
+The data exploration steps were chosen to understand the distribution of features and target variable, which is crucial for selecting an appropriate model and preprocessing techniques.
+1. Preprocessing
+Normalization using MinMaxScaler was applied to ensure all features are on the same scale, which is important for neural networks. OneHotEncoder was used for categorical variables to convert them into a format suitable for the model.
+1. Model
+The neural network model was chosen due to its ability to capture complex relationships in the data. The hyperparameter tuning process helped optimize the model architecture. The results show that the model performs reasonably well, with a low MSE on the test set.
+
+1. Believability and Critique
+The model shows promise in predicting house prices, as evidenced by the scatter plot of true vs predicted values. However, there are some limitations:
+
+    1. The residual plot shows some heteroscedasticity, indicating that the model's performance varies across different price ranges.
+    1. The training and validation loss curves suggest that the model might benefit from more epochs or a different learning rate schedule.
+    1. The model's performance (MSE of 0.024) is reported to be worse than a previous iteration mentioned in the document, suggesting that further improvements are possible.
 
 ## Model_2_Classification
 ### 1. Introduction
@@ -211,7 +325,7 @@ Our input data is essentially the same as what we used for our Price Predicting 
 For the target, unlike in the PPM, we assigned the price into 4 groups based on the 0.25, 0.5, 0.75, and 1 quantile values. We then one-hot encoded these groups, allowing us to train the model using cross-entropy loss. One-hot encoding facilitates the use of cross-entropy as it converts categorical labels into a format that the loss function can interpret effectively.
 
 ### 3. Methods
-```
+```python
 model = Sequential()
 model.add(Dense(512, activation='relu', input_shape=(input_size,)))
 model.add(Dropout(0.2))
@@ -271,7 +385,7 @@ Our target is a vector with values from the columns ['price', 'longitude', 'lati
 ### 3. Methods
 
 Our model is a straightforward neural network with two fully connected layers:
-```
+```python
 class SimpleNN(nn.Module):
     def __init__(self):
         super(SimpleNN, self).__init__()
@@ -301,7 +415,7 @@ We trained the model for 10 epochs. During training, the training loss decreased
 - **Words' Relationship**:
 
 The word embedding matrix was able to train and establish clear relationships between words. For example, the top 10 closest words to 'san' are:
-```
+```python
 find_closest_words('san', word_to_idx, idx_to_word, model, 10)
 Closest words to 'san':
 Index: 30882, Word: diego
@@ -332,7 +446,7 @@ Index: 22787, Word: l
 The examples above show that the word embedding can capture semantic similarity. Words that frequently appear together in similar contexts tend to be close in the embedding space. For instance, 'san' and 'diego' are close because 'San Diego' is a commonly used name for the city in the dataset. Similarly, 'angeles' and 'los' are close because 'Los Angeles' is a well-known city name.
 
 Interestingly, the closest words to 'students' are:
-```
+```python
 find_closest_words('students', word_to_idx, idx_to_word, model, 10)
 Closest words to 'students':
 Index: 26911, Word: professionals
