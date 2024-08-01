@@ -3,23 +3,23 @@
 ## Table of Contents
 
 1. [Introduction to our project](#introduction-to-our-project)
-2. [Milestone 1 Tasks: Abstract](#milestone-1-tasks-abstract)
-3. [Milestone 2 Tasks](#milestone-2-tasks)
+2. [Milestone 1 Tasks: Abstract](#milestone-1-tasks-abstract-top)
+3. [Milestone 2 Tasks](#milestone-2-tasks-top)
     1. [Download data](#1-download-data)
     2. [How do we process our data?](#2-how-do-we-process-our-data)
     3. [Do values need to be cropped? normalized?](#3-do-values-need-to-be-cropped-normalized)
     4. [Link to Jupyter Notebook](#4-link-to-jupyter-notebook)
-4. [Milestone 3 Tasks](#milestone-3-tasks)
+4. [Milestone 3 Tasks](#milestone-3-tasks-top)
     1. [Principal Component Analysis](#principal-component-analysis)
     2. [Model 1: Price Prediction Model](#model-1-price-prediction-model)
     3. [Model 2: Income Group Classification Model](#model-2-income-group-classification-model)
-5. [Milestone 4](#milestone-4)
+5. [Milestone 4](#milestone-4-top)
     1. [Model 1: Price Prediction Model (Hyperparameter Tuning)](#model-1-price-prediction-model-hyperparameter-tuning)
     2. [Model 2: Classification](#model-2-classification)
     3. [Model 3: SVM](#model-3-svm)
     4. [Model 4: Word Embedding](#model-4-word-embedding)
-6. [Conclusion](#conclusion)
-7. [Statement of Collaboration](#statement-of-collaboration)
+6. [Conclusion](#conclusion-top)
+7. [Statement of Collaboration](#statement-of-collaboration-top)
 
 # Introduction to our project
 
