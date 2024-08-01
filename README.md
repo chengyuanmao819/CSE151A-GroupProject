@@ -616,7 +616,7 @@ Our vocabulary is not ideal as it still contains unexpected words such as emojis
 
 We can explore incorporating positional encoding to maintain the meaning and patterns of words more effectively. Additionally, our dataset can be further cleaned to be more consistent, with fewer random entries and duplicates.
 
-# Conclusion
+# Conclusion [(Top)](#table-of-contents)
 
 This project aimed to analyze and predict Airbnb listing prices using various machine learning techniques. We explored multiple models, including neural networks for price prediction and classification, Support Vector Machines (SVM), and word embeddings. Each model provided unique insights into the complex factors influencing Airbnb pricing.
 
@@ -647,7 +647,7 @@ This project aimed to analyze and predict Airbnb listing prices using various ma
 In conclusion, while our models provided valuable insights into Airbnb pricing dynamics, there remains significant room for improvement. The complexity of the short-term rental market presents ongoing challenges and opportunities for data science applications. Future work should focus on refining feature selection, improving data quality, and exploring more advanced modeling techniques to enhance prediction accuracy and provide more actionable insights for both hosts and guests in the Airbnb ecosystem.
 
 
-# Statement of Collaboration
+# Statement of Collaboration [(Top)](#table-of-contents)
 - **Sang Do:** Code and write reports for Price Group Classification model and Word Embedding model. Help other teammates debug.
 
 - **Samvathna Em:** I coded the SVM model to apply these concepts to our dataset. Although the results were not ideal for this experiment, I was impressed by the collaborative process and the discussions during model construction. This collaboration enhanced my understanding and provided valuable feedback from my teammates. They assisted me in debugging my code, and I, in turn, helped them adjust the price prediction model to achieve higher performance.
