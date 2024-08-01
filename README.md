@@ -31,7 +31,7 @@ Having a robust nightly price prediction model is critical for multiple stakehol
 
 
 
-# Milestone 1 Tasks: Abstract [Top](#table-of-contents)
+# Milestone 1 Tasks: Abstract <a href="#table-of-contents" style="font-size: small;">Top</a>
 
 Our project leverages a dataset of Airbnb listings to build a predictive model for nightly prices. By employing supervised machine learning techniques, we aim to predict listing prices based on features such as property details, host information, and location. Additionally, we plan to create a recommendation model that, given an asset’s details and the listing price, suggests the income (calculated by considering metrics like reviews per month and price). The dataset includes various attributes like property features, amenities, rating, reviews per month. Our findings will assist in optimizing pricing strategies for both hosts and customers.
 
