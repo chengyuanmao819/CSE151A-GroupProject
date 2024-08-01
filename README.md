@@ -35,7 +35,7 @@ Having a robust nightly price prediction model is critical for multiple stakehol
 
 Our project leverages a dataset of Airbnb listings to build a predictive model for nightly prices. By employing supervised machine learning techniques, we aim to predict listing prices based on features such as property details, host information, and location. Additionally, we plan to create a recommendation model that, given an asset’s details and the listing price, suggests the income (calculated by considering metrics like reviews per month and price). The dataset includes various attributes like property features, amenities, rating, reviews per month. Our findings will assist in optimizing pricing strategies for both hosts and customers.
 
-# Milestone 2 Tasks:
+# Milestone 2 Tasks:     [(Top)](#table-of-contents)
 
 ### 1. Download data:
 
@@ -70,7 +70,7 @@ For unsupervised machine learning tasks, we'll use normalized data, so that the 
 
 ### 4. Link to Jupyter Notebook: [milestone2.ipynb](https://github.com/chengyuanmao819/CSE151A-GroupProject/blob/milestone2/milestone2.ipynb)
 
-# Milestone 3 Tasks:
+# Milestone 3 Tasks:   [(Top)](#table-of-contents)
 
 ## Principle Component Analysis [explore_preprocess.ipynb](https://github.com/chengyuanmao819/CSE151A-GroupProject/blob/Milestone3/explore_preprocess.ipynb)
 
@@ -184,7 +184,7 @@ For now, we'll focus on finding more meaningful features that can be added to ou
 
 ## Next Model?
 
-# Milestone 4
+# Milestone 4  [(Top)](#table-of-contents)
 
 ## Model 1: Price Prediction Model(Hyperparameter_Tuning)
 
