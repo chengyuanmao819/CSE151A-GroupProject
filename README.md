@@ -338,6 +338,8 @@ model.compile(loss='categorical_crossentropy', optimizer=tf.keras.optimizers.Ada
 model.summary()
 ```
 
+[Classification Model](classification/classification_model.ipynb)
+
 Our model includes four dense layers with 512, 512, 256, and 256 neurons, respectively. We use the ReLU activation function for these layers to introduce non-linearity, allowing the model to capture complex patterns in the data.
 
 To prevent overfitting, we employ dropout layers with rates of 0.2, 0.1, and 0.1 between the dense layers. Dropout randomly sets a fraction of input units to 0 at each update during training, which helps prevent the network from becoming too dependent on specific neurons and improves generalization.
@@ -369,6 +371,7 @@ In future work, we can focus on identifying the inputs that lead to these confid
 Our approach involved developing a neural network model with multiple layers, leveraging dropout regularization, and optimizing using the Adam optimizer. While the model achieved an overall accuracy of `52%`, it demonstrated a notable ability to approximate the correct price group, often identifying the true group as its second choice. This suggests that, despite the model's limitations in precise classification, it captures useful patterns in the data.
 
 Our results indicate that certain feature combinations lead to confident predictions, highlighting the potential for further investigation into these factors. By identifying and analyzing the inputs that result in high-confidence predictions, we can better understand the characteristics that consistently determine price categories. This will help us refining feature selection and better understand the underlying data patterns.
+
 ## Model_3_SVM
 ### Model Chosen
 The model chosen for this analysis was Support Vector Machine (SVM) regression. Specifically, an SVR model with a linear kernel was used, with parameters `C=100` and `gamma=0.1`. This model was chosen after initial attempts at SVM classification proved less effective for predicting continuous price values.
@@ -434,6 +437,8 @@ plt.ylabel('Prices')
 plt.title('Linear SVC Decision Boundary')
 plt.show()
 ```
+[SVM Classification Model](SVM_price_classification.ipynb)
+
 ![Linear SVC decision](SVM_graph/linear_SVC_dec.png)
 
 ### Result
@@ -576,6 +581,8 @@ Index: 9512, Word: cpk
 Index: 1533, Word: seem
 Index: 12999, Word: chances
 ```
+[Word Embed Model](word_embed/word_embedding.ipynb)
+
 - **Price predicting**:
 
 Although the model fails to map words to numerical values perfectly, the scatter plot of actual price versus predicted price shows a clear positive correlation, with most points close to the perfect fit line. The model tends to underpredict the price when the actual price is high.
@@ -588,12 +595,43 @@ Our vocabulary is not ideal as it still contains unexpected words such as emojis
 
 We can explore incorporating positional encoding to maintain the meaning and patterns of words more effectively. Additionally, our dataset can be further cleaned to be more consistent, with fewer random entries and duplicates.
 
+# Conclusion
+
+This project aimed to analyze and predict Airbnb listing prices using various machine learning techniques. We explored multiple models, including neural networks for price prediction and classification, Support Vector Machines (SVM), and word embeddings. Each model provided unique insights into the complex factors influencing Airbnb pricing.
+
+## Key Findings
+
+1. **Price Prediction Model**: Our neural network achieved a Mean Squared Error (MSE) of 0.0242, demonstrating reasonable accuracy in predicting listing prices. However, the model tended to underestimate prices for higher-value listings.
+
+2. **Classification Model**: While achieving an accuracy of 52%, this model showed promise in approximating price groups, often identifying the correct group as its second choice. This suggests that the model captures useful patterns in the data, even if precise classification remains challenging.
+
+3. **SVM Model**: The Support Vector Regression model explained about 54% of the variance in price (R^2 Score: 0.5374). It captured general pricing trends but struggled with extreme values.
+
+4. **Word Embedding Model**: This approach demonstrated the potential of using textual data to predict numerical attributes of listings. It successfully captured semantic relationships between words and showed a positive correlation between predicted and actual prices.
+
+## Challenges and Limitations
+
+- Data quality and consistency were significant challenges, with outliers and irrelevant features impacting model performance.
+- High variability in pricing, especially for luxury listings, made accurate predictions difficult across all models.
+- The complex, multifaceted nature of Airbnb pricing made it challenging to capture all relevant factors in our models.
+
+## Future Directions
+
+1. **Feature Engineering**: Develop more sophisticated features that better capture the unique aspects of each listing.
+2. **Ensemble Methods**: Combine multiple models to leverage the strengths of each approach.
+3. **Advanced NLP Techniques**: Explore more advanced natural language processing methods to extract valuable information from textual data.
+4. **Geospatial Analysis**: Incorporate more detailed location data to capture neighborhood-specific pricing factors.
+5. **Time Series Analysis**: Consider seasonal trends and market dynamics in pricing predictions.
+
+In conclusion, while our models provided valuable insights into Airbnb pricing dynamics, there remains significant room for improvement. The complexity of the short-term rental market presents ongoing challenges and opportunities for data science applications. Future work should focus on refining feature selection, improving data quality, and exploring more advanced modeling techniques to enhance prediction accuracy and provide more actionable insights for both hosts and guests in the Airbnb ecosystem.
+
+
 # Statement of Collaboration
 - **Sang Do:** Code and write reports for Price Group Classification model and Word Embedding model. Help other teammates debug.
 
 - **Samvathna Em:**
 
-- **Chengyuan Mao:**
+- **Chengyuan Mao:** Write the introduction for the README, the final report for the models, project final conclusion. Assist other teammates with debugging. Discuss the model selection process.
 
 - **Yuwei Ren:** 
 
