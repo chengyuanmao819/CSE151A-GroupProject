@@ -200,9 +200,161 @@ Both the training and validation losses are low and similar, the model is well-b
 - Experiment with batch sizes in the range of 100-1000. The reason behind this adjustment is that using whole batch gradient descent might lead to misleadingly low MSE. When batch sizes are too large, the model may learn to predict lower values consistently, thus minimizing MSE but not improving the accuracy of predictions. Smaller batch sizes introduce more variability in the gradient updates, and it can lead to a better model.
 
 ## Model_2_Classification
+### 1. Introduction
 
+Our initial model, which used regression to predict price, struggled due to the data being too generalized and inconsistent. In response, we explored price group classification. This approach helps us better understand the data, practice training a classification model using cross-entropy loss, and potentially find a more effective method for the price prediction task.
+
+### 2. Data Description
+
+Our input data is essentially the same as what we used for our Price Predicting Model (PPM). The features include ['longitude', 'latitude', 'room_type', 'price', 'accommodates', 'bathrooms', 'bedrooms', 'beds', 'minimum_nights', 'review_scores_rating', 'number_of_reviews', 'calculated_host_listings_count', 'availability_30', 'availability_60']. The data was cleaned by dropping NA values, applying Min-Max normalization, and removing outliers.
+
+For the target, unlike in the PPM, we assigned the price into 4 groups based on the 0.25, 0.5, 0.75, and 1 quantile values. We then one-hot encoded these groups, allowing us to train the model using cross-entropy loss. One-hot encoding facilitates the use of cross-entropy as it converts categorical labels into a format that the loss function can interpret effectively.
+
+### 3. Methods
+```
+model = Sequential()
+model.add(Dense(512, activation='relu', input_shape=(input_size,)))
+model.add(Dropout(0.2))
+model.add(Dense(512, activation='relu'))
+model.add(Dropout(0.1))
+model.add(Dense(256, activation='relu'))
+model.add(Dropout(0.1))
+model.add(Dense(256, activation='relu'))
+model.add(Dense(num_classes, activation='softmax'))
+model.compile(loss='categorical_crossentropy', optimizer=tf.keras.optimizers.Adam(learning_rate=learning_rate), metrics=['accuracy'])
+# model.compile(loss='categorical_crossentropy', optimizer='sgd', metrics=['accuracy'])
+model.summary()
+```
+
+Our model includes four dense layers with 512, 512, 256, and 256 neurons, respectively. We use the ReLU activation function for these layers to introduce non-linearity, allowing the model to capture complex patterns in the data.
+
+To prevent overfitting, we employ dropout layers with rates of 0.2, 0.1, and 0.1 between the dense layers. Dropout randomly sets a fraction of input units to 0 at each update during training, which helps prevent the network from becoming too dependent on specific neurons and improves generalization.
+
+The output layer uses the softmax activation function, which is appropriate for multi-class classification problems.
+
+We set the training epochs to 200, but with early stopping applied, the training halted after 38 epochs. Early stopping helps prevent overfitting by stopping the training when the model's performance on a validation set no longer improves. However, the fact that early stopping was triggered relatively early suggests that the model may struggle with accurately classifying the price groups, indicating a need for further refinement or more informative features.
+
+### 4. Results
+![Train Test Accuracy](classification\train_test_accuracy.png)
+![Train Test Loss](classification\train_test_loss.png)
+
+From the train-test accuracy and train-test loss plots, we can observe that the model has not yet converged, as the slopes were still steep. We conducted experiments by allowing the model to continue training, but it became overly confident, resulting in predictions with extreme probabilities (one group had very high likelihood, while the rest had very low likelihood).
+
+Overall, the accuracy of our model is 52%, which is not particularly high. However, upon closer inspection of the likelihood the model provides for each class per sample (i.e., the output before applying argmax), as shown in the ![Eyeball plot](classification\eyeball_plot.png), even when the model predicts the income group incorrectly, the actual income group often has a reasonable likelihood. It typically receives the second-highest likelihood, if not the highest.
+
+### 5. Discussion
+
+Although the model is not very good at predicting the exact price group, it is very likely to get it right with its second choice. Additionally, some predictions have extreme probabilities, indicating that the model is highly confident when encountering certain sets of input features.
+
+In future work, we can focus on identifying the inputs that lead to these confident predictions and explore the relationships between these inputs. This analysis may reveal that certain inputs consistently result in accurate price group predictions, providing valuable insights into the factors that influence price group classification.
+
+### 6. Conclusion
+
+Our approach involved developing a neural network model with multiple layers, leveraging dropout regularization, and optimizing using the Adam optimizer. While the model achieved an overall accuracy of 52%, it demonstrated a notable ability to approximate the correct price group, often identifying the true group as its second choice. This suggests that, despite the model's limitations in precise classification, it captures useful patterns in the data.
+
+Our results indicate that certain feature combinations lead to confident predictions, highlighting the potential for further investigation into these factors. By identifying and analyzing the inputs that result in high-confidence predictions, we can better understand the characteristics that consistently determine price categories. This will help us refining feature selection and better understand the underlying data patterns.
 ## Model_3_SVM
 
 ## Model_4_Word_Embeding
+### 1. Introduction
+
+Traditional word embeddings are typically trained using methods such as n-grams or bag-of-words. In this project, we build a simple neural network to train a word embedding matrix, using mean squared error as the loss function and targeting numerical values such as 'price', 'longitude', and 'latitude' from an Airbnb dataset. Our objective is to understand how word embeddings work and to evaluate their effectiveness in the context of Airbnb listings.
+
+### 2. Data Description
+
+The data is downloaded from [Inside Airbnb](https://insideairbnb.com/get-the-data/). For this model, we used Airbnb listings from San Diego and Los Angeles.
+
+Preprocessing: We collected all the words from the following columns: ['name', 'description', 'neighborhood_overview', 'host_about', 'room_type', 'amenities']. We then created a vocabulary from all the words in the dataset and assigned an index to each word. Each input is represented as a one-hot encoded vector, where for each row, if a word appears in one of the columns mentioned above, the corresponding index in the one-hot encoded vector is incremented by 1.
+
+Our target is a vector with values from the columns ['price', 'longitude', 'latitude', 'accommodates', 'bathrooms', 'bedrooms', 'beds', 'minimum_nights', 'review_scores_rating', 'number_of_reviews']. This setup creates a context for training the word embeddings, as it associates words with numerical attributes from the listings. The idea is to learn meaningful embeddings that capture the relationships between words and these numerical features. For example, certain words in the description might be more frequently associated with higher prices or specific types of accommodation, allowing the model to understand these patterns.
+
+### 3. Methods
+
+Our model is a straightforward neural network with two fully connected layers:
+```
+class SimpleNN(nn.Module):
+    def __init__(self):
+        super(SimpleNN, self).__init__()
+        self.fc1 = nn.Linear(VOCAB_SIZE, EMBEDDING_DIM)
+        self.fc2 = nn.Linear(EMBEDDING_DIM, 10)
+        self.relu = nn.ReLU()
+
+    def forward(self, x):
+        x = self.fc1(x)
+        x = self.relu(x)
+        x = self.fc2(x)
+        return x
+
+```
+
+The ReLU activation function is applied after each layer, introducing non-linearity into the model. This non-linearity allows the model to learn more complex relationships within the data compared to a purely linear model.
+For training, we use the Adam optimizer and the Mean Squared Error (MSE) loss function. The MSE loss is appropriate for our task as we are predicting continuous numerical values
+
+### 4. Results
+
+- **Train and Validation loss**: 
+
+We trained the model for 10 epochs. During training, the training loss decreased significantly with each epoch, indicating that the model was successfully learning to associate the words with the numerical values in the training data. However, we observed that the validation loss did not decrease after a certain point, which led us to stop training at 10 epochs. This suggests that while the model was able to capture relationships in the training data, it struggled to generalize to the validation data.
+![Train Val loss](word_embed\train_val_loss.png)
+
+
+- **Words' Relationship**:
+
+The word embedding matrix was able to train and establish clear relationships between words. For example, the top 10 closest words to 'san' are:
+```
+find_closest_words('san', word_to_idx, idx_to_word, model, 10)
+Closest words to 'san':
+Index: 30882, Word: diego
+Index: 16138, Word: mission
+Index: 19898, Word: sd
+Index: 11757, Word: italy
+Index: 14253, Word: jolla
+Index: 29222, Word: gaslamp
+Index: 21133, Word: sdsu
+Index: 21127, Word: 805
+Index: 2976, Word: chula
+Index: 12360, Word: petco
+
+find_closest_words('angeles', word_to_idx, idx_to_word, model, 10)
+Closest words to 'angeles':
+Index: 19263, Word: los
+Index: 35594, Word: la
+Index: 1913, Word: venice
+Index: 16294, Word: universal
+Index: 23689, Word: manhattan
+Index: 34720, Word: lax
+Index: 28736, Word: monica
+Index: 15035, Word: santa
+Index: 6174, Word: hollywood
+Index: 22787, Word: l
+```
+
+The examples above show that the word embedding can capture semantic similarity. Words that frequently appear together in similar contexts tend to be close in the embedding space. For instance, 'san' and 'diego' are close because 'San Diego' is a commonly used name for the city in the dataset. Similarly, 'angeles' and 'los' are close because 'Los Angeles' is a well-known city name.
+
+Interestingly, the closest words to 'students' are:
+```
+find_closest_words('students', word_to_idx, idx_to_word, model, 10)
+Closest words to 'students':
+Index: 26911, Word: professionals
+Index: 33364, Word: adult
+Index: 5022, Word: therapist
+Index: 15323, Word: solarium
+Index: 13975, Word: actors
+Index: 23850, Word: roles
+Index: 30057, Word: meadows
+Index: 9512, Word: cpk
+Index: 1533, Word: seem
+Index: 12999, Word: chances
+```
+- **Price predicting**:
+
+Although the model fails to map words to numerical values perfectly, the scatter plot of actual price versus predicted price shows a clear positive correlation, with most points close to the perfect fit line. The model tends to underpredict the price when the actual price is high.
+![Predicted vs Actual Price](word_embed\predict_vs_actual.png)
+
+### 5. Discusion and Improvement
+
+Our vocabulary is not ideal as it still contains unexpected words such as emojis and variations of words (e.g., "student" vs. "students"), which significantly increase the size of the vocabulary and dilute the relationships between words.
+
+We can explore incorporating positional encoding to maintain the meaning and patterns of words more effectively. Additionally, our dataset can be further cleaned to be more consistent, with fewer random entries and duplicates.
 
 # Statement of Collaboration
