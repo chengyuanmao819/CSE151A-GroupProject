@@ -13,7 +13,7 @@
     1. [Principal Component Analysis](#principal-component-analysis)
     2. [Model 1: Price Prediction Model](#model-1-price-prediction-model)
     3. [Model 2: Income Group Classification Model](#model-2-income-group-classification-model)
-5. [Milestone 4](#milestone-4-top)
+5. [Milestone 4](#milestone-4--top)
     1. [Model 1: Price Prediction Model (Hyperparameter Tuning)](#model-1-price-prediction-model-hyperparameter-tuning)
     2. [Model 2: Classification](#model-2-classification)
     3. [Model 3: SVM](#model-3-svm)
