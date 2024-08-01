@@ -149,7 +149,7 @@ The model is slightly overfitting, as we set the `EarlyStopping's patience=10`, 
 
 ### Summarize the performance and some findings
 
-The accuracy of the model is about 50%, which is not ideal in real life. Nevertheless, when examining the likelihood percentage of each class, we find that when the predicted income group with the highest likelihood is not the actual income group, it is almost certain that the predicted income group with the second highest likelihood will be the actual income group. This means our prediction is still within a quite good range of the confidence interval.
+The accuracy of the model is about `50%`, which is not ideal in real life. Nevertheless, when examining the likelihood percentage of each class, we find that when the predicted income group with the highest likelihood is not the actual income group, it is almost certain that the predicted income group with the second highest likelihood will be the actual income group. This means our prediction is still within a quite good range of the confidence interval.
 
 For more details, please see the `Result` section in [classification_model.ipynb](classification_model.ipynb). We predict 10 random samples and plot the prediction and likelihood.
 
@@ -267,12 +267,12 @@ Both the training and validation losses are low and similar, the model is well-b
 ![Training and Validation Loss](price_pridiction_model_plots/training_and_validation_loss_final.png)
 
 ### Summarize the performance and some findings
-- Mean Squared Error (MSE): 0.0242
+- Mean Squared Error (MSE): `0.0242`
 
 #### Key Findings
 - The model performs well on the test set, indicating that it has learned the underlying patterns in the data.
 - Mean Squared Error (MSE): The MSE is relatively low, which indicates the model is making small errors in predicting the continuous values.
-- The scatter plot of true versus predicted values shows a concentration of predicted values around a lower range, indicating the model's tendency to estimate prices under 80%. The red diagonal line represents the ideal prediction where the true values match the predicted values.
+- The scatter plot of true versus predicted values shows a concentration of predicted values around a lower range, indicating the model's tendency to estimate prices under `80%`. The red diagonal line represents the ideal prediction where the true values match the predicted values.
   ![true_vs_pridicted_value](price_pridiction_model_plots/true_vs_pridicted_values.png)
 - The residuals plot shows a pattern that suggests the model is not capturing the underlying data distribution effectively. The spread of residuals is uneven, indicating potential issues with model bias.
   ![residuals_vs_predicted_values](price_pridiction_model_plots/residuals_vs_predicted_values_final.png)
@@ -315,7 +315,6 @@ The model shows promise in predicting house prices, as evidenced by the scatter 
 
 ## Model_2_Classification
 ### 1. Introduction
-
 Our initial model, which used regression to predict price, struggled due to the data being too generalized and inconsistent. In response, we explored price group classification. This approach helps us better understand the data, practice training a classification model using cross-entropy loss, and potentially find a more effective method for the price prediction task.
 
 ### 2. Data Description
@@ -336,7 +335,6 @@ model.add(Dropout(0.1))
 model.add(Dense(256, activation='relu'))
 model.add(Dense(num_classes, activation='softmax'))
 model.compile(loss='categorical_crossentropy', optimizer=tf.keras.optimizers.Adam(learning_rate=learning_rate), metrics=['accuracy'])
-# model.compile(loss='categorical_crossentropy', optimizer='sgd', metrics=['accuracy'])
 model.summary()
 ```
 
@@ -354,7 +352,11 @@ We set the training epochs to 200, but with early stopping applied, the training
 
 From the train-test accuracy and train-test loss plots, we can observe that the model has not yet converged, as the slopes were still steep. We conducted experiments by allowing the model to continue training, but it became overly confident, resulting in predictions with extreme probabilities (one group had very high likelihood, while the rest had very low likelihood).
 
-Overall, the accuracy of our model is 52%, which is not particularly high. However, upon closer inspection of the likelihood the model provides for each class per sample (i.e., the output before applying argmax), as shown in the ![Eyeball plot](classification/eyeball_plot.png), even when the model predicts the income group incorrectly, the actual income group often has a reasonable likelihood. It typically receives the second-highest likelihood, if not the highest.
+Overall, the accuracy of our model is `52%`, which is not particularly high. However, upon closer inspection of the likelihood the model provides for each class per sample (i.e., the output before applying argmax), as shown in the 
+
+![Eyeball plot](classification/eyeball_plot.png)
+
+, even when the model predicts the income group incorrectly, the actual income group often has a reasonable likelihood. It typically receives the second-highest likelihood, if not the highest.
 
 ### 5. Discussion
 
@@ -364,10 +366,123 @@ In future work, we can focus on identifying the inputs that lead to these confid
 
 ### 6. Conclusion
 
-Our approach involved developing a neural network model with multiple layers, leveraging dropout regularization, and optimizing using the Adam optimizer. While the model achieved an overall accuracy of 52%, it demonstrated a notable ability to approximate the correct price group, often identifying the true group as its second choice. This suggests that, despite the model's limitations in precise classification, it captures useful patterns in the data.
+Our approach involved developing a neural network model with multiple layers, leveraging dropout regularization, and optimizing using the Adam optimizer. While the model achieved an overall accuracy of `52%`, it demonstrated a notable ability to approximate the correct price group, often identifying the true group as its second choice. This suggests that, despite the model's limitations in precise classification, it captures useful patterns in the data.
 
 Our results indicate that certain feature combinations lead to confident predictions, highlighting the potential for further investigation into these factors. By identifying and analyzing the inputs that result in high-confidence predictions, we can better understand the characteristics that consistently determine price categories. This will help us refining feature selection and better understand the underlying data patterns.
 ## Model_3_SVM
+### Model Chosen
+The model chosen for this analysis was Support Vector Machine (SVM) regression. Specifically, an SVR model with a linear kernel was used, with parameters `C=100` and `gamma=0.1`. This model was chosen after initial attempts at SVM classification proved less effective for predicting continuous price values.
+
+### Methods
+#### Data Exploration
+Summary of Exploration Results:
+- The dataset contained listings from various cities in California, including features like location, room type, price, and various listing attributes.
+- Price values ranged from $6 to $449 per night after outlier removal.
+- Initial visualizations showed significant overlap between price categories when plotted against other features.
+
+#### Preprocessing Steps
+Description of Steps:
+
+- Removed unnecessary columns and kept relevant features
+- Converted categorical 'room_type' to numeric values
+- Removed outliers using Interquartile Range (IQR) method
+- Normalized features using MinMaxScaler
+- Created a 'price_category' feature by binning prices into ranges
+
+#### Links to Code
+```python
+from sklearn.svm import SVC
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+import numpy as np
+
+
+X = data2_norm[['beds', 'price']].values
+y = data2_norm['price_category'].cat.codes.values
+categories = data2_norm['price_category'].cat.categories
+
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+
+svm_model = SVC(kernel='linear')
+svm_model.fit(X_train, y_train)
+
+
+h = .02  
+x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
+y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
+xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
+                     np.arange(y_min, y_max, h))
+
+
+Z = svm_model.predict(np.c_[xx.ravel(), yy.ravel()])
+Z = Z.reshape(xx.shape)
+
+
+plt.contourf(xx, yy, Z, cmap=plt.cm.coolwarm, alpha=0.8)
+scatter = plt.scatter(X[:, 0], X[:, 1], c=y, cmap=plt.cm.coolwarm, edgecolors='k')
+
+
+colors = [plt.cm.coolwarm(i / len(categories)) for i in range(len(categories))]
+patches = [plt.Line2D([0], [0], marker='o', color='w', markerfacecolor=color, markersize=10, label=category)
+           for category, color in zip(categories, colors)]
+plt.legend(handles=patches, title='Price Range')
+
+plt.xlabel('Beds')
+plt.ylabel('Prices')
+plt.title('Linear SVC Decision Boundary')
+plt.show()
+```
+![Linear SVC decision](SVM_graph/linear_SVC_dec.png)
+
+### Result
+#### Data Exploration Results
+Summary of Findings:
+
+After preprocessing, the dataset contained 32,356 listings.
+Price distribution showed a right-skewed pattern, with most listings between $99 and $229 per night.
+Features like number of beds, bathrooms, and review scores showed some correlation with price.
+
+#### Preprocessing Results
+Summary of Processed Data:
+
+Outliers were removed, reducing the maximum price from $99,999 to $449.
+All numeric features were normalized to a 0-1 range.
+The final dataset included 14 features plus the target variable (price).
+
+#### Model Results
+
+Results from SVR model:
+Mean Squared Error: `4373.61`
+R^2 Score: `0.5374`
+
+![True VS Pred](SVM_graph/true_vs_pred.png)
+
+The scatter plot of true vs predicted values shows a positive correlation, with most points clustering around the line of perfect prediction for mid-range values.
+
+
+### Discussion
+#### Data Exploration
+The exploratory steps revealed significant price variability and the presence of extreme outliers. Visualizations helped identify potential relationships between features and price, guiding feature selection for the model.
+#### Preprocessing
+Outlier removal was crucial due to the presence of unrealistic price values. Normalization was necessary to ensure all features contributed equally to the model. The creation of price categories was an intermediate step that proved less effective than direct price prediction.
+#### Model
+The SVR model was chosen after initial classification attempts showed limited success. The R^2 score of 0.5374 indicates that the model explains about `54%` of the variance in price, which is moderate performance for a complex real-world dataset like Airbnb listings.
+
+### Believability and Critique
+The model captures general trends in pricing but has several limitations:
+
+- It tends to underestimate high prices and overestimate low prices.
+- There is significant prediction variability, especially for higher-priced listings.
+- The model occasionally produces negative price predictions, which are not realistic.
+
+Improvements could include:
+
+- Exploring non-linear kernels or ensemble methods
+- Incorporating more features or engineered features
+- Collecting more data, especially for high-priced listings
+- Implementing a constrained regression to prevent negative price predictions
 
 ## Model_4_Word_Embeding
 ### 1. Introduction
@@ -409,6 +524,7 @@ For training, we use the Adam optimizer and the Mean Squared Error (MSE) loss fu
 - **Train and Validation loss**: 
 
 We trained the model for 10 epochs. During training, the training loss decreased significantly with each epoch, indicating that the model was successfully learning to associate the words with the numerical values in the training data. However, we observed that the validation loss did not decrease after a certain point, which led us to stop training at 10 epochs. This suggests that while the model was able to capture relationships in the training data, it struggled to generalize to the validation data.
+
 ![Train Val loss](word_embed/train_val_loss.png)
 
 
@@ -463,6 +579,7 @@ Index: 12999, Word: chances
 - **Price predicting**:
 
 Although the model fails to map words to numerical values perfectly, the scatter plot of actual price versus predicted price shows a clear positive correlation, with most points close to the perfect fit line. The model tends to underpredict the price when the actual price is high.
+
 ![Predicted vs Actual Price](word_embed/predict_vs_actual.png)
 
 ### 5. Discusion and Improvement
