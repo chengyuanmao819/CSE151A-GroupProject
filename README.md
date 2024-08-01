@@ -629,10 +629,10 @@ In conclusion, while our models provided valuable insights into Airbnb pricing d
 # Statement of Collaboration
 - **Sang Do:** Code and write reports for Price Group Classification model and Word Embedding model. Help other teammates debug.
 
-- **Samvathna Em:**
+- **Samvathna Em:** I coded the SVM model to apply these concepts to our dataset. Although the results were not ideal for this experiment, I was impressed by the collaborative process and the discussions during model construction. This collaboration enhanced my understanding and provided valuable feedback from my teammates. They assisted me in debugging my code, and I, in turn, helped them adjust the price prediction model to achieve higher performance.
 
 - **Chengyuan Mao:** Write the introduction for the README, the final report for the models, project final conclusion. Assist other teammates with debugging. Discuss the model selection process.
 
-- **Yuwei Ren:** 
+- **Yuwei Ren:** For the price prediction model, I worked on training the model and improving its performance, fine-tuned the model's settings to find the best combination of hyper parameters, used k-fold cross-validation to test the model’s accuracy in different ways, making sure it was reliable.
 
-- **Wenzhe Xu:**
+- **Wenzhe Xu:** I managed everyone and the deadlines set up meetings and communicated with teaching staff as well as between members. And I also provide code for collecting necessary data from the web. Create with hyperparameter tuning file by using other members’ codes in Milestone 2 and Milestone 3.
