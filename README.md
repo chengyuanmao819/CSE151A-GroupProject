@@ -8,7 +8,6 @@
     1. [Download data](#1-download-data)
     2. [How do we process our data?](#2-how-do-we-process-our-data)
     3. [Do values need to be cropped? normalized?](#3-do-values-need-to-be-cropped-normalized)
-    4. [Link to Jupyter Notebook](#4-link-to-jupyter-notebook)
 4. [Milestone 3 Tasks](#milestone-3-tasks-top)
     1. [Principal Component Analysis](#principal-component-analysis)
     2. [Model 1: Price Prediction Model](#model-1-price-prediction-model)
