@@ -1,0 +1,56 @@
+# Price Group Classification
+
+## 1. Introduction
+
+Our initial model, which used regression to predict price, struggled due to the data being too generalized and inconsistent. In response, we explored price group classification. This approach helps us better understand the data, practice training a classification model using cross-entropy loss, and potentially find a more effective method for the price prediction task.
+
+## 2. Data Description
+
+Our input data is essentially the same as what we used for our Price Predicting Model (PPM). The features include ['longitude', 'latitude', 'room_type', 'price', 'accommodates', 'bathrooms', 'bedrooms', 'beds', 'minimum_nights', 'review_scores_rating', 'number_of_reviews', 'calculated_host_listings_count', 'availability_30', 'availability_60']. The data was cleaned by dropping NA values, applying Min-Max normalization, and removing outliers.
+
+For the target, unlike in the PPM, we assigned the price into 4 groups based on the 0.25, 0.5, 0.75, and 1 quantile values. We then one-hot encoded these groups, allowing us to train the model using cross-entropy loss. One-hot encoding facilitates the use of cross-entropy as it converts categorical labels into a format that the loss function can interpret effectively.
+
+## 3. Methods
+```
+model = Sequential()
+model.add(Dense(512, activation='relu', input_shape=(input_size,)))
+model.add(Dropout(0.2))
+model.add(Dense(512, activation='relu'))
+model.add(Dropout(0.1))
+model.add(Dense(256, activation='relu'))
+model.add(Dropout(0.1))
+model.add(Dense(256, activation='relu'))
+model.add(Dense(num_classes, activation='softmax'))
+model.compile(loss='categorical_crossentropy', optimizer=tf.keras.optimizers.Adam(learning_rate=learning_rate), metrics=['accuracy'])
+# model.compile(loss='categorical_crossentropy', optimizer='sgd', metrics=['accuracy'])
+model.summary()
+```
+
+Our model includes four dense layers with 512, 512, 256, and 256 neurons, respectively. We use the ReLU activation function for these layers to introduce non-linearity, allowing the model to capture complex patterns in the data.
+
+To prevent overfitting, we employ dropout layers with rates of 0.2, 0.1, and 0.1 between the dense layers. Dropout randomly sets a fraction of input units to 0 at each update during training, which helps prevent the network from becoming too dependent on specific neurons and improves generalization.
+
+The output layer uses the softmax activation function, which is appropriate for multi-class classification problems.
+
+We set the training epochs to 200, but with early stopping applied, the training halted after 38 epochs. Early stopping helps prevent overfitting by stopping the training when the model's performance on a validation set no longer improves. However, the fact that early stopping was triggered relatively early suggests that the model may struggle with accurately classifying the price groups, indicating a need for further refinement or more informative features.
+
+## 4. Results
+![Train Test Accuracy](classification\train_test_accuracy.png)
+![Train Test Loss](classification\train_test_loss.png)
+
+From the train-test accuracy and train-test loss plots, we can observe that the model has not yet converged, as the slopes were still steep. We conducted experiments by allowing the model to continue training, but it became overly confident, resulting in predictions with extreme probabilities (one group had very high likelihood, while the rest had very low likelihood).
+
+Overall, the accuracy of our model is 52%, which is not particularly high. However, upon closer inspection of the likelihood the model provides for each class per sample (i.e., the output before applying argmax), as shown in the ![Eyeball plot](classification\eyeball_plot.png), even when the model predicts the income group incorrectly, the actual income group often has a reasonable likelihood. It typically receives the second-highest likelihood, if not the highest.
+
+## 5. Discussion
+
+Although the model is not very good at predicting the exact price group, it is very likely to get it right with its second choice. Additionally, some predictions have extreme probabilities, indicating that the model is highly confident when encountering certain sets of input features.
+
+In future work, we can focus on identifying the inputs that lead to these confident predictions and explore the relationships between these inputs. This analysis may reveal that certain inputs consistently result in accurate price group predictions, providing valuable insights into the factors that influence price group classification.
+
+## 6. Conclusion
+
+Our approach involved developing a neural network model with multiple layers, leveraging dropout regularization, and optimizing using the Adam optimizer. While the model achieved an overall accuracy of 52%, it demonstrated a notable ability to approximate the correct price group, often identifying the true group as its second choice. This suggests that, despite the model's limitations in precise classification, it captures useful patterns in the data.
+
+Our results indicate that certain feature combinations lead to confident predictions, highlighting the potential for further investigation into these factors. By identifying and analyzing the inputs that result in high-confidence predictions, we can better understand the characteristics that consistently determine price categories. This will help us refining feature selection and better understand the underlying data patterns.
+

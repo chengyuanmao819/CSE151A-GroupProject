@@ -2,3 +2,8 @@ pandas
 numpy
 matplotlib
 seaborn
+
+requests 
+gzip 
+shutil 
+bs4
