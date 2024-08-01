@@ -186,10 +186,10 @@ For now, we'll focus on finding more meaningful features that can be added to ou
 
 # Milestone 4  [(Top)](#table-of-contents)
 
-    1. [Model 1: Price Prediction Model (Hyperparameter Tuning)](#model-1-price-prediction-model-hyperparameter-tuning)
-    2. [Model 2: Classification](#model-2-classification)
-    3. [Model 3: SVM](#model-3-svm)
-    4. [Model 4: Word Embedding](#model-4-word-embedding)
+1. [Model 1: Price Prediction Model (Hyperparameter Tuning)](#model-1-price-prediction-model-hyperparameter-tuning)
+2. [Model 2: Classification](#model-2-classification)
+3. [Model 3: SVM](#model-3-svm)
+4. [Model 4: Word Embedding](#model-4-word-embedding)
 
 ## Model 1: Price Prediction Model(Hyperparameter_Tuning)
 
