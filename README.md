@@ -472,3 +472,12 @@ Our vocabulary is not ideal as it still contains unexpected words such as emojis
 We can explore incorporating positional encoding to maintain the meaning and patterns of words more effectively. Additionally, our dataset can be further cleaned to be more consistent, with fewer random entries and duplicates.
 
 # Statement of Collaboration
+- **Sang Do:** Code and write reports for Price Group Classification model and Word Embedding model. Help other teammates debug.
+
+- **Samvathna Em:**
+
+- **Chengyuan Mao:**
+
+- **Yuwei Ren:** 
+
+- **Wenzhe Xu:**
