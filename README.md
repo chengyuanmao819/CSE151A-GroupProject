@@ -273,7 +273,7 @@ Both the training and validation losses are low and similar, the model is well-b
 - The model performs well on the test set, indicating that it has learned the underlying patterns in the data.
 - Mean Squared Error (MSE): The MSE is relatively low, which indicates the model is making small errors in predicting the continuous values.
 - The scatter plot of true versus predicted values shows a concentration of predicted values around a lower range, indicating the model's tendency to estimate prices under `80%`. The red diagonal line represents the ideal prediction where the true values match the predicted values.
-  ![true_vs_pridicted_value](price_pridiction_model_plots/true_vs_pridicted_values.png)
+  ![true_vs_pridicted_value](price_pridiction_model_plots/true_vs_pridicted_values_final.png)
 - The residuals plot shows a pattern that suggests the model is not capturing the underlying data distribution effectively. The spread of residuals is uneven, indicating potential issues with model bias.
   ![residuals_vs_predicted_values](price_pridiction_model_plots/residuals_vs_predicted_values_final.png)
 - Here's the new best price prediction model we got so far:
