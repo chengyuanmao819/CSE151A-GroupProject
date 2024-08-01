@@ -1,5 +1,26 @@
 # CSE151A-GroupProject
 
+## Table of Contents
+
+1. [Introduction to our project](#introduction-to-our-project)
+2. [Milestone 1 Tasks: Abstract](#milestone-1-tasks-abstract)
+3. [Milestone 2 Tasks](#milestone-2-tasks)
+    1. [Download data](#1-download-data)
+    2. [How do we process our data?](#2-how-do-we-process-our-data)
+    3. [Do values need to be cropped? normalized?](#3-do-values-need-to-be-cropped-normalized)
+    4. [Link to Jupyter Notebook](#4-link-to-jupyter-notebook)
+4. [Milestone 3 Tasks](#milestone-3-tasks)
+    1. [Principal Component Analysis](#principal-component-analysis)
+    2. [Model 1: Price Prediction Model](#model-1-price-prediction-model)
+    3. [Model 2: Income Group Classification Model](#model-2-income-group-classification-model)
+5. [Milestone 4](#milestone-4)
+    1. [Model 1: Price Prediction Model (Hyperparameter Tuning)](#model-1-price-prediction-model-hyperparameter-tuning)
+    2. [Model 2: Classification](#model-2-classification)
+    3. [Model 3: SVM](#model-3-svm)
+    4. [Model 4: Word Embedding](#model-4-word-embedding)
+6. [Conclusion](#conclusion)
+7. [Statement of Collaboration](#statement-of-collaboration)
+
 # Introduction to our project
 
 Airbnb has become a dominant force in the rapidly growing sharing economy, revolutionizing the way people travel and stay. Our team chose this project because of the dynamic and rapid growth of the short-term rental market, especially platforms like Airbnb. The short-term rental industry is rapidly expanding globally and becoming the preferred choice of travel and accommodation for many. We see great potential in utilizing the power of data science and machine learning to solve real-world problems faced by landlords and tenants. We are particularly interested in analyzing and modeling the prediction of nightly rates, which involves a wide range of characteristics from property details (e.g., number of rooms, amenities) to host information (e.g., ratings) and location details (e.g., city). This complexity provided a wealth of learning opportunities and the ability to apply our skills to a multifaceted and challenging problem.
