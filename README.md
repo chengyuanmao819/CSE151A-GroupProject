@@ -235,12 +235,12 @@ The output layer uses the softmax activation function, which is appropriate for 
 We set the training epochs to 200, but with early stopping applied, the training halted after 38 epochs. Early stopping helps prevent overfitting by stopping the training when the model's performance on a validation set no longer improves. However, the fact that early stopping was triggered relatively early suggests that the model may struggle with accurately classifying the price groups, indicating a need for further refinement or more informative features.
 
 ### 4. Results
-![Train Test Accuracy](classification\train_test_accuracy.png)
-![Train Test Loss](classification\train_test_loss.png)
+![Train Test Accuracy](classification/train_test_accuracy.png)
+![Train Test Loss](classification/train_test_loss.png)
 
 From the train-test accuracy and train-test loss plots, we can observe that the model has not yet converged, as the slopes were still steep. We conducted experiments by allowing the model to continue training, but it became overly confident, resulting in predictions with extreme probabilities (one group had very high likelihood, while the rest had very low likelihood).
 
-Overall, the accuracy of our model is 52%, which is not particularly high. However, upon closer inspection of the likelihood the model provides for each class per sample (i.e., the output before applying argmax), as shown in the ![Eyeball plot](classification\eyeball_plot.png), even when the model predicts the income group incorrectly, the actual income group often has a reasonable likelihood. It typically receives the second-highest likelihood, if not the highest.
+Overall, the accuracy of our model is 52%, which is not particularly high. However, upon closer inspection of the likelihood the model provides for each class per sample (i.e., the output before applying argmax), as shown in the ![Eyeball plot](classification/eyeball_plot.png), even when the model predicts the income group incorrectly, the actual income group often has a reasonable likelihood. It typically receives the second-highest likelihood, if not the highest.
 
 ### 5. Discussion
 
@@ -295,7 +295,7 @@ For training, we use the Adam optimizer and the Mean Squared Error (MSE) loss fu
 - **Train and Validation loss**: 
 
 We trained the model for 10 epochs. During training, the training loss decreased significantly with each epoch, indicating that the model was successfully learning to associate the words with the numerical values in the training data. However, we observed that the validation loss did not decrease after a certain point, which led us to stop training at 10 epochs. This suggests that while the model was able to capture relationships in the training data, it struggled to generalize to the validation data.
-![Train Val loss](word_embed\train_val_loss.png)
+![Train Val loss](word_embed/train_val_loss.png)
 
 
 - **Words' Relationship**:
@@ -349,7 +349,7 @@ Index: 12999, Word: chances
 - **Price predicting**:
 
 Although the model fails to map words to numerical values perfectly, the scatter plot of actual price versus predicted price shows a clear positive correlation, with most points close to the perfect fit line. The model tends to underpredict the price when the actual price is high.
-![Predicted vs Actual Price](word_embed\predict_vs_actual.png)
+![Predicted vs Actual Price](word_embed/predict_vs_actual.png)
 
 ### 5. Discusion and Improvement
 
